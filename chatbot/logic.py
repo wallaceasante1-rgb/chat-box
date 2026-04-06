@@ -46,3 +46,11 @@ def get_response(user_input, personality="Friendly", model_choice="DialoGPT-smal
 def reset_chat():
     global chat_history_ids
     chat_history_ids = None
+def get_response(user_input, personality="Friendly", model_choice="DialoGPT-small"):
+    # For now, just return a simple response so the app runs
+    response = f"Bot ({personality}, {model_choice}) reply to: {user_input}"
+    return response
+
+def reset_chat():
+    # Placeholder reset function
+    pass
