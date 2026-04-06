@@ -1,18 +1,15 @@
 import streamlit as st
-from chatbot.logic import get_response
-import pyttsx3
+from chatbot.logic import get_response, reset_chat
 
-# Initialize session state
-if "history" not in st.session_state:
-    st.session_state.history = []
+st.title("🤖 AI Chatbot")
 
 # Sidebar options
-st.sidebar.title("Chatbot Settings")
-personality = st.sidebar.selectbox("Choose Bot Personality", ["Friendly", "Professional", "Funny"])
-model_choice = st.sidebar.selectbox("Choose Model", ["DialoGPT-small", "DialoGPT-medium"])
-voice_enabled = st.sidebar.checkbox("Enable Voice Output")
+personality = st.sidebar.selectbox("Choose personality:", ["Friendly", "Professional", "Funny"])
+model_choice = st.sidebar.selectbox("Choose model:", ["DialoGPT-small", "DialoGPT-medium"])
 
-st.title("🤖 Chatbot App")
+# Initialize chat history
+if "history" not in st.session_state:
+    st.session_state.history = []
 
 # User input
 user_input = st.text_input("You:", "")
@@ -22,25 +19,12 @@ if user_input:
     st.session_state.history.append(("You", user_input))
     st.session_state.history.append(("Bot", response))
 
-    # Voice output
-    if voice_enabled:
-        engine = pyttsx3.init()
-        engine.say(response)
-        engine.runAndWait()
-
-# Display chat history with styled bubbles
+# Display chat history
 for speaker, text in st.session_state.history:
-    if speaker == "You":
-        st.markdown(f"<div style='background-color:#d1e7dd;padding:10px;border-radius:10px;margin:5px;'>**You:** {text}</div>", unsafe_allow_html=True)
-    else:
-        st.markdown(f"<div style='background-color:#f8d7da;padding:10px;border-radius:10px;margin:5px;'>**Bot:** {text}</div>", unsafe_allow_html=True)
+    st.write(f"**{speaker}:** {text}")
 
-# Download chat
-if st.session_state.history:
-    chat_text = "\n".join([f"{s}: {t}" for s, t in st.session_state.history])
-    st.download_button("Download Chat", chat_text, "chat.txt")
 # Clear conversation button
 if st.button("Clear Conversation"):
     st.session_state.history = []
+    reset_chat()
     st.success("Conversation cleared!")
-
