@@ -39,4 +39,8 @@ for speaker, text in st.session_state.history:
 if st.session_state.history:
     chat_text = "\n".join([f"{s}: {t}" for s, t in st.session_state.history])
     st.download_button("Download Chat", chat_text, "chat.txt")
+# Clear conversation button
+if st.button("Clear Conversation"):
+    st.session_state.history = []
+    st.success("Conversation cleared!")
 
