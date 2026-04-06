@@ -41,3 +41,6 @@ def get_response(user_input, personality="Friendly", model_choice="DialoGPT-smal
         response = "😂 " + response
 
     return response
+def reset_chat():
+    global chat_history_ids
+    chat_history_ids = None
