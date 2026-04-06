@@ -19,20 +19,26 @@ if user_input:
     st.session_state.history.append(("You", user_input))
     st.session_state.history.append(("Bot", response))
 
-# Display chat history
+# Display chat history with bubbles
 for speaker, text in st.session_state.history:
-    st.write(f"**{speaker}:** {text}")
-st.markdown(
-    f"""
-    <div style='background-color:#DCF8C6; padding:10px; border-radius:10px; margin:5px;'>
-        <b>You:</b> {user_input}
-    </div>
-    <div style='background-color:#ECECEC; padding:10px; border-radius:10px; margin:5px;'>
-        <b>Bot:</b> {response}
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+    if speaker == "You":
+        st.markdown(
+            f"""
+            <div style='background-color:#DCF8C6; padding:10px; border-radius:10px; margin:5px; text-align:right;'>
+                <b>{speaker}:</b> {text}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            f"""
+            <div style='background-color:#ECECEC; padding:10px; border-radius:10px; margin:5px; text-align:left;'>
+                <b>{speaker}:</b> {text}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 # Clear conversation button
 if st.button("Clear Conversation"):
